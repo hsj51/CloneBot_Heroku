@@ -83,10 +83,11 @@ class _Config:
             else:
                 raise TypeError
 
-            if not optional and not value and value is not False:
-                logger.warning('{} is not provided.'.format(item))
-                input("Press Enter to continue...")
-                sys.exit(1)
+            if not value and value is not False:
+                if not optional:
+                    logger.warning('{} is not provided.'.format(item))
+                    input("Press Enter to continue...")
+                    sys.exit(1)
             else:
                 logger.info('Found {}: {}'.format(item, value))
                 setattr(self, '_' + item, value)
