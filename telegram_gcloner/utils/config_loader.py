@@ -19,6 +19,7 @@ class _Config:
         self._path_to_gclone = None
         self._user_ids = ''
         self._group_ids = ''
+        self._clone_command = 'copy'
         self._gclone_para_override = ''
         self._base_path = os.path.dirname(os.path.dirname(__file__))
         self.TIMER_TO_DELETE_MESSAGE = 10
@@ -49,7 +50,7 @@ class _Config:
         ]
 
         self.get_config_from_section('str', config_general_keywords_str, config_general)
-        self.get_config_from_section('str', ['path_to_gclone', 'gclone_para_override'], config_general, optional=True)
+        self.get_config_from_section('str', ['path_to_gclone', 'clone_command', 'gclone_para_override'], config_general, optional=True)
 
         self._user_ids = [int(item) for item in self._user_ids.split(',')]
         self._group_ids = [int(item) for item in self._group_ids.split(',')]
@@ -81,12 +82,14 @@ class _Config:
                 value = section.getboolean(item, False)
             else:
                 raise TypeError
+
             if not optional and not value and value is not False:
                 logger.warning('{} is not provided.'.format(item))
                 input("Press Enter to continue...")
                 sys.exit(1)
-            logger.info('Found {}: {}'.format(item, value))
-            setattr(self, '_' + item, value)
+            else:
+                logger.info('Found {}: {}'.format(item, value))
+                setattr(self, '_' + item, value)
 
     @property
     def PATH_TO_GCLONE(self):
@@ -103,6 +106,10 @@ class _Config:
     @property
     def GROUP_IDS(self):
         return self._group_ids
+
+    @property
+    def CLONE_COMMAND(self):
+        return self._clone_command
 
     @property
     def GCLONE_PARA_OVERRIDE(self):
