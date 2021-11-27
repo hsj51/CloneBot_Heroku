@@ -5,6 +5,4 @@ user_ids = $user_ids
 group_ids = $group_ids
 clone_command = $clone_command
 gclone_para_override = $gclone_para_override" >> "telegram_gcloner/config.ini"
-npm install http-server -g
-http-server -p $PORT &
-python3 telegram_gcloner/telegram_gcloner.py
+#python3 telegram_gcloner/telegram_gcloner.py
